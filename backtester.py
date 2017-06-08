@@ -125,8 +125,8 @@ class Algorithm(ABC):
     def get_inventory(self):
         return self.wallet
 
-  # buy target_curr_volume worth of target_curr using base_curr
 
+  # buy target_curr_volume worth of target_curr using base_curr
     def buy(
         self,
         target_curr,
@@ -158,8 +158,8 @@ class Algorithm(ABC):
             self.wallet_state(),
             ])
 
-  # sell base_curr_volume worth of base_curr for target_curr
 
+  # sell base_curr_volume worth of base_curr for target_curr
     def sell(
         self,
         base_curr,
