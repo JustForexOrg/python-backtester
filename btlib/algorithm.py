@@ -20,6 +20,17 @@ def get_price(target_curr, base_curr, time):
         'CHF': 0.5,
         }
     return prices[target_curr] / prices[base_curr]
+    '''
+    http://justforex.xyz:3020/userapi-backend/currency_price?target_curr=EUR&base_curr=GBP&time=2012-04-05T21:04:09
+    http_request_str = '/userapi-backend/currency_price?'
+    http_request_str += 'target_curr=' + target_curr
+    http_request_str += '&base_curr=' + base_curr
+    http_request_str += '&time=' + format_datetime_string(time)
+    conn.request('GET', http_request_str)
+    resp = conn.getresponse()
+    data = resp.read()
+    return data
+    '''
 
 
 def get_prices_in_period(
@@ -62,7 +73,6 @@ def get_economic_indicators_in_period(
                       dt))
         dt += step
     return values
-
 
 class Algorithm(ABC):
 
@@ -118,6 +128,7 @@ class Algorithm(ABC):
         while self.current_time < self.end_datetime:
             self.act()
             self.current_time += step
+        conn.close()
 
     def get_time(self):
         return self.current_time
@@ -190,42 +201,3 @@ class Algorithm(ABC):
             self.current_time,
             self.wallet_state(),
             ])
-
-
-class MyAlgorithm(Algorithm):
-
-    def __init__(self, start_datetime, end_datetime):
-        super().__init__(start_datetime, end_datetime)
-
-    def act(self):
-        if self.counter % 100 == 0:
-            self.buy('GBP', 'USD', 1)
-            self.sell('GBP', 'EUR', 0.9)
-
-
-dummystart = datetime(
-    2012,
-    4,
-    5,
-    21,
-    4,
-    9,
-    )
-dummyend = datetime(
-    2013,
-    1,
-    30,
-    1,
-    33,
-    22,
-    )
-ma = MyAlgorithm(dummystart, dummyend)
-ma.run()
-print 'Successful: '
-for a in ma.successful_transactions:
-    print a
-print ('Number of transactions: ', len(ma.successful_transactions))
-print ('Unsuccessful: ', ma.unsuccessful_transactions)
-conn.close()
-
-# 2007-12-03T10:15:30
