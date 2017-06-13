@@ -99,8 +99,28 @@ class Algorithm(ABC):
 
         self.unsuccessful_transactions = []
 
+    # List of values of the wallet over time in USD - time-float pairs
+
+        self.wallet_value_usd_list = []
+
+    def parse_wallet_values_to_json(self):
+        s = '?(\n'
+        s+= '['
+        for [time, value] in self.wallet_value_usd_list:
+            s += '[' + str(time.timestamp()) + ',' + str(value) + '],\n'
+        s = s[:-1]
+        s += '\n]);'
+        print(s)
+        return s
+
     def wallet_state(self):
         return list(self.wallet.values())
+
+    def record_wallet_value_usd(self):
+        value_usd = 0
+        for pair in self.wallet:
+            value_usd += get_price(pair, 'USD', self.current_time) * self.wallet[pair]
+        self.wallet_value_usd_list.append([self.current_time, value_usd])
 
     def get_price_period_high(
         self,
@@ -129,6 +149,9 @@ class Algorithm(ABC):
             self.act()
             self.current_time += step
         conn.close()
+        f = open('wallet_value_over_time.json','w')
+        f.write(self.parse_wallet_values_to_json())
+        f.close()
 
     def get_time(self):
         return self.current_time
@@ -168,6 +191,7 @@ class Algorithm(ABC):
             self.current_time,
             self.wallet_state(),
             ])
+        self.record_wallet_value_usd()
 
 
   # sell base_curr_volume worth of base_curr for target_curr
@@ -201,3 +225,4 @@ class Algorithm(ABC):
             self.current_time,
             self.wallet_state(),
             ])
+        self.record_wallet_value_usd()

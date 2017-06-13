@@ -18,9 +18,13 @@ DEFAULT_END_TIME = datetime(
     22,
     )
 ma = MyAlgorithm(DEFAULT_START_TIME, DEFAULT_END_TIME)
-ma.run()
-print('Successful: ')
-for a in ma.successful_transactions:
-    print(a)
-print ('Number of transactions: ', len(ma.successful_transactions))
-print ('Unsuccessful: ', ma.unsuccessful_transactions)
+
+
+def backtest_algorithm():
+    ma.run()
+    print(ma.wallet_value_usd_list)
+    #print('Successful: ')
+    #for a in ma.successful_transactions:
+    #    print(a)
+    #print ('Number of transactions: ', len(ma.successful_transactions))
+    #print ('Unsuccessful: ', ma.unsuccessful_transactions)

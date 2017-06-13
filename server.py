@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
+import main
 import urllib
 
 # HTTPRequestHandler class
@@ -25,11 +26,14 @@ class testHTTPServer_RequestHandler(BaseHTTPRequestHandler):
     self.send_header('Content-type', 'text/plain')
     self.end_headers()
     length = int(self.headers['Content-Length'])
+    print('before taking file , length is: ', length)
     # You now have a dictionary of the post data
     payload = self.rfile.read(length)
+    print('doing file stuff')
     f = open('btlib/myalgorithm.py','w')
     f.write(payload.decode(encoding='UTF-8'))
     f.close()
+    main.backtest_algorithm()
     self.wfile.write(bytes("got it", "utf8"))
     return
 
