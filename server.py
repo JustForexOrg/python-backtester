@@ -18,7 +18,7 @@ class testHTTPServer_RequestHandler(BaseHTTPRequestHandler):
         # Send message back to client
         message = "The Python runner is working!"
         # Write content as utf-8 data
-        self.wfile.write(bytes("got it", "utf8"))
+        self.wfile.write(bytes(message, "utf8"))
         return
 
   def do_POST(self):

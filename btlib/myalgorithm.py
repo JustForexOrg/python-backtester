@@ -8,5 +8,5 @@ class MyAlgorithm(Algorithm):
 
     def act(self):
         if self.counter == 0:
-            print('The user\'s file was not sent)
+            print('The user\'s file was not sent')
         self.counter == 1
