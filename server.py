@@ -33,8 +33,7 @@ class testHTTPServer_RequestHandler(BaseHTTPRequestHandler):
     f = open('btlib/myalgorithm.py','w')
     f.write(payload.decode(encoding='UTF-8'))
     f.close()
-    main.backtest_algorithm()
-    self.wfile.write(bytes("got it", "utf8"))
+    self.wfile.write(bytes(main.backtest_algorithm(), "utf8"))
     return
 
 def run():

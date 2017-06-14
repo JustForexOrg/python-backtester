@@ -22,7 +22,7 @@ ma = MyAlgorithm(DEFAULT_START_TIME, DEFAULT_END_TIME)
 
 def backtest_algorithm():
     ma.run()
-    print(ma.wallet_value_usd_list)
+    return ma.wallet_value_usd_list
     #print('Successful: ')
     #for a in ma.successful_transactions:
     #    print(a)
